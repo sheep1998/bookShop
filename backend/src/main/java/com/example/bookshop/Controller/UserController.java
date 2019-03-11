@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping(value = "/user/loggin")
     @ResponseBody
-    public Map<String,Object> logResult(HttpSession session,
+    public Map<String,Object> logResult(HttpServletRequest req,
                                         @RequestParam("email") String email,
                                         @RequestParam("password") String password){
         HashMap<String,Object> hashMap=new HashMap<String, Object>();
@@ -31,9 +31,8 @@ public class UserController {
         hashMap.put("id",user.get(0).getUserId());
         hashMap.put("avatar",user.get(0).getAvatarUrl());
 
+        HttpSession session = req.getSession();
         session.setAttribute("user", user.get(0));
-        System.out.println(session.getId());
-
 
         return hashMap;
     }

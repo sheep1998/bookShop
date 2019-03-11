@@ -63,9 +63,23 @@ export default {
     }
   },
   mounted(){
-    $.get("http://localhost:8080"+"/order/all",(response)=>{
+    /*$.get("http://localhost:8080"+"/order/all",(response)=>{
       this.$store.state.orderList = response
-    });
+    });*/
+    var _this = this;
+    $.ajax({
+      type:"GET",
+      dataType:"json",
+      async:"false",
+      url:"http://localhost:8080/order/all",
+      xhrFields:{
+        withCredentials: true
+      },
+      crossDomain:true,
+      success:function(response){
+        _this.$store.state.orderList = response
+      }
+    })
   },
   computed:{
     orderList:function(){

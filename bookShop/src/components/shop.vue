@@ -70,7 +70,12 @@ export default {
       }
       this.$store.state.goodsList = response
     })
-    this.cart = this.$cookies.get("cart").cart
+    if(this.$cookies.get("cart")===null){
+      this.cart = []
+    }
+    else{
+      this.cart = this.$cookies.get("cart").cart
+    }
   },
   computed:{
     allGoodsList: function () {

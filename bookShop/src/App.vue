@@ -84,11 +84,27 @@ export default {
       this.open = !this.open
     },
     login(){
-      $.post("http://localhost:8080"+"/user/loggin",{"email":"admin","password":"123"},(response)=>{
+      /*$.post("http://localhost:8080"+"/user/loggin",{"email":"admin","password":"123"},(response)=>{
         this.$store.state.user = response
         this.currUserFlag= true
         }
-      )
+      )*/
+      var _this = this;
+      $.ajax({
+        type:"POST",
+        dataType:"json",
+        async:"false",
+        data:{email:"admin",password:"123"},
+        url:"http://localhost:8080/user/loggin",
+        xhrFields:{
+          withCredentials: true
+        },
+        crossDomain:true,
+        success:function(response){
+          _this.$store.state.user = response
+          _this.currUserFlag= true
+        }
+      })
     },
     register(){
     }

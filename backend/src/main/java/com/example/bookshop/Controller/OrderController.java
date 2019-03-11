@@ -29,10 +29,11 @@ public class OrderController {
 
     @GetMapping(value = "/order/all")
     @ResponseBody
-    public List<Ordermenu> showOrder(HttpSession session){
-        System.out.println(session.getId());
+    public List<Ordermenu> showOrder(HttpServletRequest req){
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        int userid = user.getUserId();
 
-        int userid = 1;
         return ordermenuService.queryOrder(userid);
     }
 
