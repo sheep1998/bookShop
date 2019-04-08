@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface BookService {
     List<Book> queryAllBook();
     Optional<Book> queryOneBook(int coding);
+    void changeNum(int coding,int num);
 }

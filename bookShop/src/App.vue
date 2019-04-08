@@ -75,7 +75,14 @@ export default {
      return this.$store.state.user
     }
   },
+  mounted(){
+
+  },
+  destroyed: function () { // 离开页面生命周期函数
+      this.websocketclose();
+  },
   methods:{
+
     toggle(flag){
       this.open = !this.open
     },
@@ -84,11 +91,6 @@ export default {
       this.open = !this.open
     },
     login(){
-      /*$.post("http://localhost:8080"+"/user/loggin",{"email":"admin","password":"123"},(response)=>{
-        this.$store.state.user = response
-        this.currUserFlag= true
-        }
-      )*/
       var _this = this;
       $.ajax({
         type:"POST",
@@ -101,12 +103,36 @@ export default {
         },
         crossDomain:true,
         success:function(response){
+          _this.$cookies.set("user",response,60*60*12)
           _this.$store.state.user = response
-          _this.currUserFlag= true
+          //_this.currUserFlag= true
         }
+      })
+      this.$nextTick(() => {
+        this.initWebSocket()
       })
     },
     register(){
+      this.websock.send("hello")
+    },
+    initWebSocket: function () {
+      this.websock = new WebSocket("ws://localhost:8080/myWebSocket/1");
+      this.websock.onopen = this.websocketonopen;
+      this.websock.onerror = this.websocketonerror;
+      this.websock.onmessage = this.websocketonmessage;
+      this.websock.onclose = this.websocketclose;
+    },
+    websocketonopen: function () {
+      console.log("WebSocket连接成功");
+    },
+    websocketonerror: function (e) {
+      console.log("WebSocket连接发生错误");
+    },
+    websocketonmessage: function (e) {
+      console.log(e.data);
+    },
+    websocketclose: function (e) {
+      console.log("WebSocket连接关闭");
     }
   }
 }

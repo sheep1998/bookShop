@@ -63,9 +63,6 @@ export default {
     }
   },
   mounted(){
-    /*$.get("http://localhost:8080"+"/order/all",(response)=>{
-      this.$store.state.orderList = response
-    });*/
     var _this = this;
     $.ajax({
       type:"GET",

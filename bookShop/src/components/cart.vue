@@ -8,12 +8,14 @@
     ></Table>
     <div style="margin-top:20px;width:100%;display:flex;flex-direction:row;align-items:center;justify-content:center">
       <span style="color:#fe5400">总价格：￥{{totalPrice}}</span>
-      <Button style="margin-left:20px" ghost type="success">购买</Button>
+      <Button @click="commitOrder" style="margin-left:20px" ghost type="success">购买</Button>
     </div>
   </div>
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   name: 'cart',
   data () {
@@ -39,7 +41,8 @@ export default {
               },[
               h('img',{
               attrs:{
-                src: "https://cbu01.alicdn.com/img/ibank/2012/008/444/662444800_995212887.jpg", style: 'height:70px;width: 70px;border-radius: 2px;'
+                src: params.row.img,
+                style: 'height:70px;width: 70px;border-radius: 2px;'
               }
               })
             ])
@@ -140,6 +143,26 @@ export default {
   methods:{
     handleSelectionChange(val){
       this.mSelection = val
+    },
+    commitOrder(){
+      var cart = {}
+      for(let i=0;i<this.mSelection.length;i++){
+        cart[this.mSelection[i].coding] = this.mSelection[i].number
+      }
+      $.ajax({
+        type:"POST",
+        dataType:"json",
+        async:"false",
+        data:cart,
+        url:"http://localhost:8080/order/commit",
+        xhrFields:{
+          withCredentials: true
+        },
+        crossDomain:true,
+        success:function(response){
+          console.log(response)
+        }
+      })
     }
   },
   computed:{

@@ -5,8 +5,8 @@
         <Form  :label-width="100">
           <FormItem label="商品图片">
             <swiper :options="swiperOption">
-              <swiper-slide v-for="(item,index) in book.imgs" :key="index" >
-                <img :src="item">
+              <swiper-slide  style="height:400px" v-for="(item,index) in book.imgs" :key="index" >
+                <img style="width:100%;height:100%" :src="item">
               </swiper-slide>
             </swiper>
           </FormItem>

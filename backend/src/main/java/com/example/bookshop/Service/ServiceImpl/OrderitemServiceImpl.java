@@ -7,7 +7,9 @@ import com.example.bookshop.Model.Orderitem;
 import com.example.bookshop.Service.OrderitemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -37,5 +39,11 @@ public class OrderitemServiceImpl implements OrderitemService {
             hashMaps.add(hashMap);
         }
         return hashMaps;
+    }
+
+    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Override
+    public void saveOrderItem(HashSet<Orderitem> orderitems) {
+        orderitemRepository.saveAll(orderitems);
     }
 }
